@@ -1,9 +1,9 @@
 {
   "_metadata": {
-    "generated": "2025-10-30T10:10:42.253Z",
-    "totalMappings": 731,
-    "version": "1.0.0",
-    "description": "Perfect district mapping from API to GeoJSON"
+    "generated": "2025-10-31T14:32:56.328Z",
+    "totalMappings": 726,
+    "version": "2.1.0",
+    "description": "Cleaned district mapping - removed incorrect manual fixes and duplicates"
   },
   "mappings": {
     "pune|maharashtra": {
@@ -1200,13 +1200,6 @@
       "geoDistrict": "KISHANGANJ",
       "geoState": "BIHAR",
       "geoId": 415,
-      "confidence": 1,
-      "source": "perfect-match"
-    },
-    "banka |bihar": {
-      "geoDistrict": "BANKA",
-      "geoState": "BIHAR",
-      "geoId": 333,
       "confidence": 1,
       "source": "perfect-match"
     },
@@ -2477,13 +2470,6 @@
       "confidence": 1,
       "source": "perfect-match"
     },
-    "buxar |bihar": {
-      "geoDistrict": "BUXAR",
-      "geoState": "BIHAR",
-      "geoId": 363,
-      "confidence": 1,
-      "source": "perfect-match"
-    },
     "bhavnagar|gujarat": {
       "geoDistrict": "BHAVNAGAR",
       "geoState": "GUJARAT",
@@ -3499,13 +3485,6 @@
       "confidence": 1,
       "source": "perfect-match"
     },
-    "bengaluru rural|karnataka": {
-      "geoDistrict": "BENGALURU RURAL",
-      "geoState": "KARNATAKA",
-      "geoId": 107,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
     "ratlam|madhya pradesh": {
       "geoDistrict": "RATLAM",
       "geoState": "MADHYA PRADESH",
@@ -3545,13 +3524,6 @@
       "geoDistrict": "NORTH GOA",
       "geoState": "GOA",
       "geoId": 98,
-      "confidence": 1,
-      "source": "perfect-match"
-    },
-    "navsari  |gujarat": {
-      "geoDistrict": "NAVSARI",
-      "geoState": "GUJARAT",
-      "geoId": 643,
       "confidence": 1,
       "source": "perfect-match"
     },
@@ -4131,14 +4103,6 @@
       "source": "fuzzy-match",
       "needsReview": true
     },
-    "balrampur|chhattisgarh": {
-      "geoDistrict": "BALRAMPUR",
-      "geoState": "UTTAR PRADESH",
-      "geoId": 288,
-      "confidence": 0.9,
-      "source": "fuzzy-match",
-      "needsReview": true
-    },
     "east singhbum|jharkhand": {
       "geoDistrict": "EAST SINGHBHUM",
       "geoState": "JHARKHAND",
@@ -4200,14 +4164,6 @@
       "geoState": "KARNATAKA",
       "geoId": 110,
       "confidence": 0.8888888888888888,
-      "source": "fuzzy-match",
-      "needsReview": true
-    },
-    "pratapgarh|rajasthan": {
-      "geoDistrict": "PRATAPGARH",
-      "geoState": "UTTAR PRADESH",
-      "geoId": 29,
-      "confidence": 0.9,
       "source": "fuzzy-match",
       "needsReview": true
     },
@@ -4312,14 +4268,6 @@
       "geoState": "TELANGANA",
       "geoId": 140,
       "confidence": 0.8823529411764706,
-      "source": "fuzzy-match",
-      "needsReview": true
-    },
-    "nicobars|andaman and nicobar": {
-      "geoDistrict": "NICOBAR",
-      "geoState": "ANDAMAN & NICOBAR",
-      "geoId": 573,
-      "confidence": 0.875,
       "source": "fuzzy-match",
       "needsReview": true
     },
@@ -4563,14 +4511,6 @@
       "source": "fuzzy-match",
       "needsReview": true
     },
-    "nellore|andhra pradesh": {
-      "geoDistrict": "VELLORE",
-      "geoState": "TAMIL NADU",
-      "geoId": 79,
-      "confidence": 0.8571428571428571,
-      "source": "fuzzy-match",
-      "needsReview": true
-    },
     "kasargod|kerala": {
       "geoDistrict": "KASARAGOD",
       "geoState": "KERALA",
@@ -4611,14 +4551,6 @@
       "source": "fuzzy-match",
       "needsReview": true
     },
-    "south andaman|andaman and nicobar": {
-      "geoDistrict": "SOUTH ANDAMAN",
-      "geoState": "ANDAMAN & NICOBAR",
-      "geoId": 572,
-      "confidence": 0.9,
-      "source": "fuzzy-match",
-      "needsReview": true
-    },
     "purba bardhaman|west bengal": {
       "geoDistrict": "PURBA BARDDHAMAN",
       "geoState": "WEST BENGAL",
@@ -4626,38 +4558,6 @@
       "confidence": 0.9375,
       "source": "fuzzy-match",
       "needsReview": true
-    },
-    "gangtok district|sikkim": {
-      "geoDistrict": "EAST",
-      "geoState": "SIKKIM",
-      "geoId": 449,
-      "note": "Capital district",
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "soreng|sikkim": {
-      "geoDistrict": "WEST",
-      "geoState": "SIKKIM",
-      "geoId": 455,
-      "note": "Western district",
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "gyalshing district|sikkim": {
-      "geoDistrict": "WEST",
-      "geoState": "SIKKIM",
-      "geoId": 455,
-      "note": "Western district",
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "pakyong|sikkim": {
-      "geoDistrict": "EAST",
-      "geoState": "SIKKIM",
-      "geoId": 449,
-      "note": "Eastern district",
-      "confidence": 1,
-      "source": "manual-fix"
     },
     "namchi district|sikkim": {
       "geoDistrict": "SOUTH",
@@ -4745,62 +4645,6 @@
       "confidence": 1,
       "source": "manual-fix"
     },
-    "darjeeling gorkha hill council (dghc)|west bengal": {
-      "geoDistrict": "DARJILING",
-      "geoState": "WEST BENGAL",
-      "geoId": 441,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "siliguri mahakuma parisad|west bengal": {
-      "geoDistrict": "DARJILING",
-      "geoState": "WEST BENGAL",
-      "geoId": 441,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "bengaluru|karnataka": {
-      "geoDistrict": "BENGALURU URBAN",
-      "geoState": "KARNATAKA",
-      "geoId": 106,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "bengaluru urban|karnataka": {
-      "geoDistrict": "BENGALURU URBAN",
-      "geoState": "KARNATAKA",
-      "geoId": 106,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "bengaluru south|karnataka": {
-      "geoDistrict": "BENGALURU URBAN",
-      "geoState": "KARNATAKA",
-      "geoId": 106,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "bangalore|karnataka": {
-      "geoDistrict": "BENGALURU URBAN",
-      "geoState": "KARNATAKA",
-      "geoId": 106,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "bangalore urban|karnataka": {
-      "geoDistrict": "BENGALURU URBAN",
-      "geoState": "KARNATAKA",
-      "geoId": 106,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "bangalore rural|karnataka": {
-      "geoDistrict": "BENGALURU RURAL",
-      "geoState": "KARNATAKA",
-      "geoId": 107,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
     "sas nagar mohali|punjab": {
       "geoDistrict": "SAS NAGAR (SAHIBZADA AJIT SINGH NAGAR)",
       "geoState": "PUNJAB",
@@ -4819,20 +4663,6 @@
       "geoDistrict": "RUPNAGAR",
       "geoState": "PUNJAB",
       "geoId": 718,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "nawanshahr |punjab": {
-      "geoDistrict": "SHAHID BHAGAT SINGH NAGAR",
-      "geoState": "PUNJAB",
-      "geoId": 552,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "malerkotla|punjab": {
-      "geoDistrict": "SANGRUR",
-      "geoState": "PUNJAB",
-      "geoId": 547,
       "confidence": 1,
       "source": "manual-fix"
     },
@@ -4913,41 +4743,6 @@
       "confidence": 1,
       "source": "manual-fix"
     },
-    "sakti|chhattisgarh": {
-      "geoDistrict": "JANJGIR-CHAMPA",
-      "geoState": "CHHATTISGARH",
-      "geoId": 177,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "mohla manpur ambagarh chowki|chhattisgarh": {
-      "geoDistrict": "RAJNANDGAON",
-      "geoState": "CHHATTISGARH",
-      "geoId": 174,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "khairagarh chhuikhadan gandai|chhattisgarh": {
-      "geoDistrict": "RAJNANDGAON",
-      "geoState": "CHHATTISGARH",
-      "geoId": 174,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "sarangarh bilaigarh|chhattisgarh": {
-      "geoDistrict": "RAIGARH",
-      "geoState": "CHHATTISGARH",
-      "geoId": 175,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "manendragarh chirmiri bharatpur|chhattisgarh": {
-      "geoDistrict": "KORIYA",
-      "geoState": "CHHATTISGARH",
-      "geoId": 178,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
     "bolangir|odisha": {
       "geoDistrict": "BOLANGIR (BALANGIR)",
       "geoState": "ODISHA",
@@ -4975,21 +4770,6 @@
       "geoId": 191,
       "confidence": 1,
       "source": "manual-fix"
-    },
-    "narmadapuram|madhya pradesh": {
-      "geoDistrict": "HOSHANGABAD",
-      "geoState": "MADHYA PRADESH",
-      "geoId": 245,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "narmadapuram|gujarat": {
-      "geoDistrict": "HOSHANGABAD",
-      "geoState": "MADHYA PRADESH",
-      "geoId": 245,
-      "confidence": 1,
-      "source": "manual-fix",
-      "note": "API data error - Narmadapuram is incorrectly listed under Gujarat instead of Madhya Pradesh"
     },
     "neemuch|madhya pradesh": {
       "geoDistrict": "NIMACH",
@@ -5030,20 +4810,6 @@
       "geoDistrict": "USMANABAD",
       "geoState": "MAHARASHTRA",
       "geoId": 143,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "chatrapati sambhaji nagar|maharashtra": {
-      "geoDistrict": "AURANGABAD",
-      "geoState": "MAHARASHTRA",
-      "geoId": 144,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "ahilyanagar|maharashtra": {
-      "geoDistrict": "AHMADNAGAR",
-      "geoState": "MAHARASHTRA",
-      "geoId": 145,
       "confidence": 1,
       "source": "manual-fix"
     },
@@ -5096,13 +4862,6 @@
       "confidence": 1,
       "source": "manual-fix"
     },
-    "kanpur nagar|uttar pradesh": {
-      "geoDistrict": "KANPUR DEHAT",
-      "geoState": "UTTAR PRADESH",
-      "geoId": 360,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
     "sant ravidas nagar|uttar pradesh": {
       "geoDistrict": "BHADOHI",
       "geoState": "UTTAR PRADESH",
@@ -5121,13 +4880,6 @@
       "geoDistrict": "PUNCH",
       "geoState": "JAMMU AND KASHMIR",
       "geoId": 641,
-      "confidence": 1,
-      "source": "manual-fix"
-    },
-    "keyi panyor|arunachal pradesh": {
-      "geoDistrict": "KURUNG KUMEY",
-      "geoState": "ARUNACHAL PRADESH",
-      "geoId": 528,
       "confidence": 1,
       "source": "manual-fix"
     },
@@ -5205,6 +4957,202 @@
       "geoDistrict": "SHAHADRA",
       "geoState": "DELHI",
       "geoId": 636,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "nicobars|andaman  nicobar": {
+      "geoDistrict": "NICOBAR",
+      "geoState": "ANDAMAN & NICOBAR",
+      "geoId": 573,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "narayanpur|chhattisgarh": {
+      "geoDistrict": "NARAINPUR",
+      "geoState": "CHHATTISGARH",
+      "geoId": 592,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "dang|gujarat": {
+      "geoDistrict": "DANGS",
+      "geoState": "GUJARAT",
+      "geoId": 190,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "lahul and spiti|himachal pradesh": {
+      "geoDistrict": "LAHUL & SPITI",
+      "geoState": "HIMACHAL PRADESH",
+      "geoId": 570,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "chikkaballapura|karnataka": {
+      "geoDistrict": "CHIK BALLAPUR",
+      "geoState": "KARNATAKA",
+      "geoId": 725,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "vijayanagara|karnataka": {
+      "geoDistrict": "BALLARI",
+      "geoState": "KARNATAKA",
+      "geoId": 100,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "angul|odisha": {
+      "geoDistrict": "ANUGUL",
+      "geoState": "ODISHA",
+      "geoId": 204,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "chittorgarh|rajasthan": {
+      "geoDistrict": "CHITTAURGARH",
+      "geoState": "RAJASTHAN",
+      "geoId": 323,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "dholpur|rajasthan": {
+      "geoDistrict": "DHAULPUR",
+      "geoState": "RAJASTHAN",
+      "geoId": 426,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "jalore|rajasthan": {
+      "geoDistrict": "JALOR",
+      "geoState": "RAJASTHAN",
+      "geoId": 669,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "sri ganganagar|rajasthan": {
+      "geoDistrict": "GANGANAGAR",
+      "geoState": "RAJASTHAN",
+      "geoId": 532,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "gautam buddha nagar|uttar pradesh": {
+      "geoDistrict": "GAUTAMBUDHNAGAR",
+      "geoState": "UTTAR PRADESH",
+      "geoId": 488,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "sivasagar|assam": {
+      "geoDistrict": "SIBSAGAR",
+      "geoState": "ASSAM",
+      "geoId": 462,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "raigad|maharashtra": {
+      "geoDistrict": "RAYGAD",
+      "geoState": "MAHARASHTRA",
+      "geoId": 154,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "bhatinda|punjab": {
+      "geoDistrict": "BATHINDA",
+      "geoState": "PUNJAB",
+      "geoId": 535,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "ferozepur|punjab": {
+      "geoDistrict": "FIROZPUR",
+      "geoState": "PUNJAB",
+      "geoId": 551,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "nawanshahr|punjab": {
+      "geoDistrict": "SHAHID BHAGAT SINGH NAGAR",
+      "geoState": "PUNJAB",
+      "geoId": 552,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "kanniyakumari|tamil nadu": {
+      "geoDistrict": "KANYAKUMARI",
+      "geoState": "TAMIL NADU",
+      "geoId": 30,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "south andaman|andaman  nicobar": {
+      "geoDistrict": "SOUTH ANDAMAN",
+      "geoState": "ANDAMAN & NICOBAR",
+      "geoId": 572,
+      "confidence": 1,
+      "source": "exact-match"
+    },
+    "banka|bihar": {
+      "geoDistrict": "BANKA",
+      "geoState": "BIHAR",
+      "geoId": 333,
+      "confidence": 1,
+      "source": "exact-match"
+    },
+    "buxar|bihar": {
+      "geoDistrict": "BUXAR",
+      "geoState": "BIHAR",
+      "geoId": 363,
+      "confidence": 1,
+      "source": "exact-match"
+    },
+    "rajnandagon|chhattisgarh": {
+      "geoDistrict": "RAJ NANDGAON",
+      "geoState": "CHHATTISGARH",
+      "geoId": 713,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "navsari|gujarat": {
+      "geoDistrict": "NAVSARI",
+      "geoState": "GUJARAT",
+      "geoId": 643,
+      "confidence": 1,
+      "source": "exact-match"
+    },
+    "nuapada|odisha": {
+      "geoDistrict": "NUAPARHA",
+      "geoState": "ODISHA",
+      "geoId": 189,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "rayagada|odisha": {
+      "geoDistrict": "RAYAGARHA",
+      "geoState": "ODISHA",
+      "geoId": 165,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "pondicherry|puducherry": {
+      "geoDistrict": "PUDUCHERRY",
+      "geoState": "PUDUCHERRY",
+      "geoId": 63,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "rae bareli|uttar pradesh": {
+      "geoDistrict": "RAIBEARELI",
+      "geoState": "UTTAR PRADESH",
+      "geoId": 404,
+      "confidence": 1,
+      "source": "manual-fix"
+    },
+    "sant kabeer nagar|uttar pradesh": {
+      "geoDistrict": "SANTKABIRNAGAR",
+      "geoState": "UTTAR PRADESH",
+      "geoId": 434,
       "confidence": 1,
       "source": "manual-fix"
     }
