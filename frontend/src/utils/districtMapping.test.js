@@ -146,13 +146,6 @@ describe('District Mapping', () => {
       // Find duplicates
       const duplicates = Object.entries(geoIdCount).filter(([geoId, keys]) => keys.length > 1);
       
-      if (duplicates.length > 0) {
-        console.warn('⚠️ Found geoIds with multiple mappings:');
-        duplicates.forEach(([geoId, keys]) => {
-          console.warn(`  geoId ${geoId}: ${keys.join(', ')}`);
-        });
-      }
-      
       // Allow some intentional duplicates (e.g., name variants, district splits)
       // After cleaning, we should have ~7 intentional duplicates
       expect(duplicates.length).toBeLessThanOrEqual(10);
@@ -165,9 +158,6 @@ describe('District Mapping', () => {
       
       // Should have at least 700 mappings (out of ~740 API districts)
       expect(totalMappings).toBeGreaterThanOrEqual(700);
-      
-      console.log(`📊 Total mappings: ${totalMappings}`);
-      console.log(`📊 Coverage: ${((totalMappings / 740) * 100).toFixed(1)}% of API districts`);
     });
   });
 });
