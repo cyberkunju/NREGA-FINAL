@@ -198,16 +198,14 @@ const MapView = () => {
             
             let perfData = null;
             
-            // Strategy 1: Use perfect mapping via geoId
-            // TEMPORARILY DISABLED: Manual fixes have wrong geoIds causing wrong data display
-            // TODO: Regenerate perfect mapping with correct geoIds from GeoJSON
-            // const apiDataArray = geoIdToApiMap[geoId];
-            // if (apiDataArray && apiDataArray.length > 0) {
-            //   perfData = apiDataArray[0]; // Use first match (should only be one)
-            //   perfectMatchCount++;
-            // }
+            // Strategy 1: Use perfect mapping via geoId (RE-ENABLED with corrected mapping)
+            const apiDataArray = geoIdToApiMap[geoId];
+            if (apiDataArray && apiDataArray.length > 0) {
+              perfData = apiDataArray[0]; // Use first match (should only be one)
+              perfectMatchCount++;
+            }
             
-            // Strategy 2: Fallback to lookup keys
+            // Strategy 2: Fallback to lookup keys (for backward compatibility)
             if (!perfData) {
               const lookupKeys = createLookupKeys(districtNameRaw, stateNameRaw);
               
@@ -279,27 +277,25 @@ const MapView = () => {
         console.log(`🎯 Match statistics: Perfect=${perfectMatchCount}, Fallback=${fallbackMatchCount}, None=${noMatchCount}`);
         console.log(`📍 Sample enriched feature:`, enriched.features[0].properties);
         console.log(`✅ Districts WITH data:`, enriched.features.filter(f => f.properties.hasData).slice(0, 5).map(f => `${f.properties.district_name} → ${f.properties.matchedWith}`));
-        console.log(`❌ Districts WITHOUT data:`, withoutData.slice(0, 10).map(f => {
+        console.log(`❌ Districts WITHOUT data (will be filtered out):`, withoutData.slice(0, 10).map(f => {
           const props = f.properties;
           const districtName = props.district_name;
           const stateName = props.state_name;
           return `${districtName}, ${stateName}`;
         }));
         
-        // Log specific problematic districts for debugging
-        const problematicDistricts = withoutData.filter(f => {
-          const name = f.properties.district_name?.toLowerCase();
-          return name?.includes('parganas') || name?.includes('cooch') || name?.includes('koch');
-        });
-        if (problematicDistricts.length > 0) {
-          console.log(`🔍 Problematic districts (should have data):`, problematicDistricts.map(f => 
-            `${f.properties.district_name}, ${f.properties.state_name}`
-          ));
-        }
+        // CRITICAL FIX: Filter to show ONLY districts with API data
+        // User requirement: Show only districts from government API, not extra GeoJSON districts
+        const filteredEnriched = {
+          ...enriched,
+          features: enriched.features.filter(f => f.properties.hasData)
+        };
+        
+        console.log(`\n🎯 FILTERED: Showing ${filteredEnriched.features.length} districts with API data (removed ${withoutData.length} districts without data)`);
 
         // Store enriched data for property lookups
-        enrichedDataRef.current = enriched;
-        setEnrichedGeoJSON(enriched);
+        enrichedDataRef.current = filteredEnriched;
+        setEnrichedGeoJSON(filteredEnriched);
         setLoading(false);
       } catch (err) {
         console.error('❌ Failed to load data:', err);
