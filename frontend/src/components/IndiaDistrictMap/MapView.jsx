@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { getHeatmapData } from '../../services/api';
-import { normalizeDistrictName, createLookupKeys, findBestMatch } from '../../utils/districtNameMapping';
+import { normalizeDistrictName, createLookupKeys } from '../../utils/districtNameMapping';
 import perfectMapping from '../../data/perfect-district-mapping.json';
 import MetricSelector from './MetricSelector';
 import Legend from './Legend';
