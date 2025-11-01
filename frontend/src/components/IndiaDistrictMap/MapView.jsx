@@ -2,8 +2,9 @@ import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import * as turf from '@turf/turf';
 import { getHeatmapData } from '../../services/api';
-import { normalizeDistrictName, createLookupKeys, findBestMatch } from '../../utils/districtNameMapping';
+import { normalizeDistrictName, createLookupKeys } from '../../utils/districtNameMapping';
 import perfectMapping from '../../data/perfect-district-mapping-v2.json';
 import MetricSelector from './MetricSelector';
 import Legend from './Legend';
@@ -80,10 +81,10 @@ const MapView = () => {
           glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf'
         },
         center: [78.9629, 20.5937], // India center
-        zoom: 4.5,
-        minZoom: 4,
+        zoom: 4,
+        minZoom: 3,
         maxZoom: 10,
-        maxBounds: [[68, 6], [97, 37]], // Strict India bounds
+        maxBounds: [[65, 5], [100, 38]], // Slightly relaxed bounds to allow full India view
         renderWorldCopies: false, // Prevent world duplication
         dragRotate: false, // Disable rotation
         touchZoomRotate: false
@@ -209,7 +210,7 @@ const MapView = () => {
             // Handle different property naming conventions in GeoJSON
             const districtNameRaw = (props.District || props.district);
             const stateNameRaw = (props.STATE || props.st_nm);
-            const geoId = props.dt_code || props.id;
+            // const geoId = props.dt_code || props.id; // Not currently used
             
             let perfData = null;
             
@@ -452,6 +453,13 @@ const MapView = () => {
     });
 
     console.log('✅ Layers added successfully');
+
+    // Fit map to India bounds to ensure entire country is visible
+    const indiaBounds = turf.bbox(enrichedGeoJSON);
+    map.current.fitBounds(indiaBounds, { 
+      padding: { top: 50, bottom: 50, left: 50, right: 50 },
+      duration: 0 // Instant fit on initial load
+    });
 
     // Setup interactions (Task 7 & 8)
     setupInteractions();
