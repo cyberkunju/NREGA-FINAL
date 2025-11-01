@@ -455,11 +455,16 @@ const MapView = () => {
     console.log('✅ Layers added successfully');
 
     // Fit map to India bounds to ensure entire country is visible
-    const indiaBounds = turf.bbox(enrichedGeoJSON);
-    map.current.fitBounds(indiaBounds, { 
-      padding: { top: 50, bottom: 50, left: 50, right: 50 },
-      duration: 0 // Instant fit on initial load
-    });
+    try {
+      const indiaBounds = turf.bbox(enrichedGeoJSON);
+      map.current.fitBounds(indiaBounds, { 
+        padding: { top: 50, bottom: 50, left: 50, right: 50 },
+        duration: 0 // Instant fit on initial load
+      });
+    } catch (error) {
+      console.error('❌ Failed to fit bounds to India:', error);
+      // Fallback to default view if fitBounds fails
+    }
 
     // Setup interactions (Task 7 & 8)
     setupInteractions();
