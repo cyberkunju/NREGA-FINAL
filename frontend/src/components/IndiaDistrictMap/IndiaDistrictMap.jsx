@@ -59,9 +59,9 @@ const IndiaDistrictMap = ({
       },
       center: [78.9629, 20.5937],
       zoom: 4,
-      minZoom: 3.5,
+      minZoom: 3,
       maxZoom: 8,
-      maxBounds: [[68, 6], [97, 37]],
+      maxBounds: [[65, 5], [100, 38]],
       attributionControl: true
     });
 
