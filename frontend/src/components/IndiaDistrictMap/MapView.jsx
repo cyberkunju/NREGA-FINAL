@@ -126,14 +126,7 @@ const MapView = () => {
         setLoading(true);
         console.log('📊 [MapView] Loading data...');
 
-        // Fetch heatmap data from API
-        const heatmapResponse = await getHeatmapData();
-        console.log('🔍 Raw heatmap response:', heatmapResponse);
-        const apiData = heatmapResponse.data || heatmapResponse;
-        console.log(`✅ Loaded ${apiData.length} districts from API`);
-        console.log('🔍 First 3 districts:', apiData.slice(0, 3));
-
-        // Load GeoJSON from public folder
+        // Load GeoJSON from public folder FIRST (always works, doesn't depend on backend)
         const geoResponse = await fetch('/india-districts.geojson');
         if (!geoResponse.ok) {
           console.error('GeoJSON fetch failed:', geoResponse.status, geoResponse.statusText);
@@ -148,6 +141,19 @@ const MapView = () => {
         }
         
         console.log('Sample feature:', geoJSON.features[0].properties);
+
+        // Try to fetch heatmap data from API (optional - map will work without it)
+        let apiData = [];
+        try {
+          const heatmapResponse = await getHeatmapData();
+          console.log('🔍 Raw heatmap response:', heatmapResponse);
+          apiData = heatmapResponse.data || heatmapResponse;
+          console.log(`✅ Loaded ${apiData.length} districts from API`);
+          console.log('🔍 First 3 districts:', apiData.slice(0, 3));
+        } catch (apiError) {
+          console.warn('⚠️ Could not load API data, showing map with boundaries only:', apiError.message);
+          // Continue with empty apiData - map will show boundaries without performance colors
+        }
 
         // Create comprehensive lookup map for performance data using perfect mapping
         const dataLookup = {};
@@ -455,12 +461,29 @@ const MapView = () => {
     console.log('✅ Layers added successfully');
 
     // Fit map to India bounds to ensure entire country is visible
+    console.log('🔍 Attempting to fit bounds to India...');
     try {
-      const indiaBounds = turf.bbox(enrichedGeoJSON);
-      map.current.fitBounds(indiaBounds, { 
+      // Calculate bounds from GeoJSON
+      const calculatedBounds = turf.bbox(enrichedGeoJSON);
+      console.log('📦 GeoJSON bounds calculated:', calculatedBounds);
+      
+      // India's actual geographic bounds (to ensure full coverage including extremities)
+      // West: ~68.7°E (westernmost Gujarat), East: ~97.4°E (easternmost Arunachal/Assam)  
+      // Note: Andaman & Nicobar (92-94°E) are included in the GeoJSON
+      // South: ~6.4°N (Indira Point), North: ~37.6°N (Kashmir)
+      const fullIndiaBounds = [
+        Math.min(calculatedBounds[0], 68.0),  // Extend west slightly
+        Math.min(calculatedBounds[1], 6.0),    // Extend south slightly  
+        Math.max(calculatedBounds[2], 98.0),   // Extend east to include any missed areas
+        Math.max(calculatedBounds[3], 38.0)    // Extend north slightly
+      ];
+      console.log('📦 Full India bounds (with buffer):', fullIndiaBounds);
+      
+      map.current.fitBounds(fullIndiaBounds, { 
         padding: { top: 50, bottom: 50, left: 50, right: 50 },
-        duration: 0 // Instant fit on initial load
+        duration: 1000 // Smooth animation to show the fit
       });
+      console.log('✅ Successfully fit bounds to India');
     } catch (error) {
       console.error('❌ Failed to fit bounds to India:', error);
       // Fallback to default view if fitBounds fails
