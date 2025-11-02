@@ -169,6 +169,10 @@
     "collapseSection": "பிரிவைச் சுருக்கு",
     "toggleAdvancedMetrics": "மேம்பட்ட அளவீடுகளை நிலைமாற்று"
   },
+  "mobile": {
+    "tutorialTapBar": "மெனுவைத் திறக்க பட்டையைத் தட்டவும் அல்லது",
+    "tutorialToSwitch": "மாற்ற"
+  },
   "summary": {
     "heading": "மாவட்ட செயல்திறன் சுருக்கம்",
     "thisDistrict": "இந்த மாவட்டம்",

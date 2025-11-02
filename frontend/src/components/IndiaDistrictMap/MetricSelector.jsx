@@ -63,6 +63,7 @@ const MetricIcons = {
 const MetricSelector = ({ selectedMetric, onChange, metrics, onAdvancedToggle }) => {
   const { t } = useTranslation();
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   
   const primaryMetrics = Object.keys(metrics).filter(key => metrics[key].category === 'primary');
   const advancedMetrics = Object.keys(metrics).filter(key => metrics[key].category === 'advanced');
@@ -78,13 +79,17 @@ const MetricSelector = ({ selectedMetric, onChange, metrics, onAdvancedToggle })
       onAdvancedToggle(newState);
     }
   };
+  
+  const handleMobileToggle = () => {
+    setIsMobileExpanded(!isMobileExpanded);
+  };
 
   return (
-    <div className="metric-selector">
+    <div className={`metric-selector ${isMobileExpanded ? 'expanded' : ''}`} onClick={handleMobileToggle}>
       <div className="metric-selector-title">{t('map.selectMetric')}</div>
       
       {/* Primary Metrics */}
-      <div className="metric-buttons">
+      <div className="metric-buttons" onClick={(e) => e.stopPropagation()}>
         {primaryMetrics.map((key) => {
           const metric = metrics[key];
           return (
@@ -97,6 +102,8 @@ const MetricSelector = ({ selectedMetric, onChange, metrics, onAdvancedToggle })
                 if (showAdvanced) {
                   handleAdvancedToggle();
                 }
+                // Close mobile menu after selection
+                setIsMobileExpanded(false);
               }}
               title={metric.title}
             >
@@ -124,7 +131,10 @@ const MetricSelector = ({ selectedMetric, onChange, metrics, onAdvancedToggle })
       {/* Advanced Metrics Toggle */}
       <button 
         className="advanced-toggle"
-        onClick={handleAdvancedToggle}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleAdvancedToggle();
+        }}
         title={showAdvanced ? t('advancedMetrics.hideDetailed') : t('advancedMetrics.showDetailed')}
       >
         <span className="advanced-toggle-text">{t('advancedMetrics.title')}</span>
@@ -154,6 +164,8 @@ const MetricSelector = ({ selectedMetric, onChange, metrics, onAdvancedToggle })
                   onChange(key);
                   // Auto-collapse after selection
                   handleAdvancedToggle();
+                  // Close mobile menu
+                  setIsMobileExpanded(false);
                 }}
                 title={metric.title}
               >

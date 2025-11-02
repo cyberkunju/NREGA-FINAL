@@ -1,11 +1,24 @@
 .search-bar-container {
   position: absolute;
-  top: 20px;
+  top: 16px; /* Align with language switcher at top */
   left: 50%;
   transform: translateX(-50%);
-  z-index: 20;
+  z-index: 25; /* Below language switcher, above map */
   width: 90%;
   max-width: 500px;
+  
+  /* Ensure clean rendering during scaling */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Apply zoom compensation only on desktop */
+@media (min-width: 1025px) {
+  .search-bar-container {
+    transform: translateX(-50%) scale(var(--base-scale, 1));
+    transform-origin: top center;
+    will-change: transform;
+  }
 }
 
 .search-input-wrapper {
@@ -18,11 +31,14 @@
   padding: 0.875rem 1.25rem;
   font-size: 1rem;
   border: 2px solid #e5e7eb;
-  border-radius: 8px;
+  border-radius: 10px;
   background: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
   outline: none;
+  -webkit-appearance: none; /* Remove iOS styling */
+  appearance: none;
+  min-height: 44px; /* iOS touch target minimum */
 }
 
 .search-input:focus {
@@ -41,25 +57,31 @@
   right: 0;
   margin-top: 0.5rem;
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  max-height: 300px;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  max-height: 250px;
   overflow-y: auto;
-  z-index: 21;
+  z-index: 26;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 .search-result-item {
-  padding: 0.75rem 1rem;
+  padding: 0.875rem 1rem;
   cursor: pointer;
   border-bottom: 1px solid #f3f4f6;
   transition: background 0.15s ease;
+  min-height: 44px; /* Touch-friendly target */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .search-result-item:last-child {
   border-bottom: none;
 }
 
-.search-result-item:hover {
+.search-result-item:hover,
+.search-result-item:active {
   background: #f0fdf4;
 }
 
@@ -75,16 +97,110 @@
   color: #6b7280;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+/* Tablet Optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
   .search-bar-container {
-    width: 95%;
-    max-width: none;
+    width: 70%;
+    max-width: 320px;
     top: 10px;
   }
 
   .search-input {
-    padding: 0.75rem 1rem;
-    font-size: 0.875rem;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8rem;
+    min-height: 36px;
+  }
+
+  .search-results {
+    max-height: 180px;
+    font-size: 0.8rem;
+  }
+
+  .search-result-item {
+    padding: 0.625rem 0.75rem;
+    min-height: 36px;
+  }
+
+  .result-district {
+    font-size: 0.75rem;
+  }
+
+  .result-state {
+    font-size: 0.65rem;
+  }
+}
+
+/* Mobile Optimizations - Floating Search */
+@media (max-width: 768px) {
+  .search-bar-container {
+    width: calc(100% - 88px);
+    max-width: none;
+    top: 16px;
+    left: 16px;
+    right: 72px;
+    transform: none;
+  }
+
+  .search-input {
+    padding: 0.875rem 1.125rem;
+    font-size: 0.95rem;
+    border-radius: 30px;
+    min-height: 56px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    background: white;
+    border: 3px solid #e2e8f0;
+    font-weight: 500;
+  }
+  
+  .search-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 6px 24px rgba(102, 126, 234, 0.3);
+  }
+  
+  .search-results {
+    max-height: 280px;
+    font-size: 0.9rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+    border: 2px solid #e2e8f0;
+    margin-top: 8px;
+  }
+  
+  .search-result-item {
+    padding: 1rem 1.125rem;
+    min-height: 60px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  
+  .search-result-item:hover {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  }
+}
+
+@media (max-width: 480px) {
+  .search-bar-container {
+    width: calc(100% - 65px);
+    top: 10px;
+    left: 6px;
+    right: 55px;
+  }
+  
+  .search-input {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    min-height: 38px;
+  }
+  
+  .search-results {
+    max-height: 180px;
+    border-radius: 10px;
+  }
+  
+  .result-district {
+    font-size: 0.8rem;
+  }
+  
+  .result-state {
+    font-size: 0.7rem;
   }
 }

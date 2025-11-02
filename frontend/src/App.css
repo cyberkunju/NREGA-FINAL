@@ -8,6 +8,8 @@
   overflow: hidden;
   margin: 0;
   padding: 0;
+  /* Enable touch gestures for mobile pinch-zoom */
+  touch-action: manipulation;
 }
 
 .main-content {
@@ -16,4 +18,6 @@
   margin: 0;
   padding: 0;
   overflow: hidden;
+  /* Enable touch gestures for mobile pinch-zoom */
+  touch-action: manipulation;
 }

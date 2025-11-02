@@ -89,6 +89,27 @@
 
   .loading-message {
     font-size: 14px;
+    padding: 0 20px;
+  }
+  
+  .loading-content {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loading-spinner {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .loading-message {
+    font-size: 13px;
+    padding: 0 16px;
+  }
+  
+  .loading-content {
+    gap: 16px;
   }
 }
 

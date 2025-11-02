@@ -8,6 +8,36 @@
   box-sizing: border-box;
 }
 
+html {
+  /* Force consistent DPI/zoom handling across Chrome and Edge */
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  
+  /* Ensure consistent font rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  
+  /* Zoom-independent base size - updated dynamically by JS */
+  --base-scale: 1;
+  
+  /* Prevent layout shift during scale updates */
+  scroll-behavior: smooth;
+  
+  /* CRITICAL: Enable pinch-to-zoom on mobile */
+  touch-action: manipulation;
+}
+
+/* Ensure body doesn't cause layout issues during scaling */
+body {
+  overflow-x: hidden;
+  position: relative;
+  
+  /* CRITICAL: Enable pinch-to-zoom on mobile */
+  touch-action: manipulation;
+}
+
 /* ===================================
    CSS Custom Properties (Variables)
    =================================== */
@@ -117,6 +147,10 @@ html {
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
+  /* Prevent pull-to-refresh on mobile */
+  overscroll-behavior-y: contain;
+  /* Smooth scrolling */
+  scroll-behavior: smooth;
 }
 
 body {
@@ -129,6 +163,16 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  /* Prevent overscroll bounce */
+  overscroll-behavior: contain;
+  /* Better touch scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
+  /* Prevent text selection highlighting on touch */
+  -webkit-tap-highlight-color: transparent;
+  /* Ensure body takes full height */
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 code {
@@ -137,6 +181,9 @@ code {
 
 #root {
   min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile */
+  position: relative;
+  overflow-x: hidden;
 }
 
 /* ===================================

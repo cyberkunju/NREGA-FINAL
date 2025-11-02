@@ -7,42 +7,91 @@
   gap: 0.125rem;
   z-index: 15;
   pointer-events: none;
-  mix-blend-mode: difference;
+  
+  /* Basic rendering */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Apply zoom compensation only on desktop */
+@media (min-width: 1025px) {
+  .mgnrega-logo {
+    transform: scale(var(--base-scale, 1)) translateZ(0);
+    transform-origin: top left;
+    will-change: transform;
+  }
 }
 
 .logo-title {
   font-size: 2rem;
   font-weight: 900;
-  color: white;
+  color: #1a1a1a;
   letter-spacing: 1px;
   line-height: 1;
   text-transform: uppercase;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
 }
 
 .logo-subtitle {
   font-size: 0.75rem;
   font-weight: 600;
-  color: white;
+  color: #1a1a1a;
   letter-spacing: 2px;
   text-transform: uppercase;
   line-height: 1;
   padding-left: 2px;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.6);
 }
 
-/* Responsive adjustments */
+/* Tablet Optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .mgnrega-logo {
+    top: 12px;
+    left: 12px;
+  }
+  
+  .logo-title {
+    font-size: 1.25rem;
+  }
+  
+  .logo-subtitle {
+    font-size: 0.55rem;
+  }
+}
+
+/* Mobile Optimizations - Position below search bar */
 @media (max-width: 768px) {
   .mgnrega-logo {
-    top: 10px;
-    left: 10px;
+    top: 80px;
+    left: 16px;
+    display: flex !important;
+    mix-blend-mode: difference;
   }
-
+  
   .logo-title {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    color: white;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
-
+  
   .logo-subtitle {
-    font-size: 0.625rem;
+    font-size: 0.55rem;
+    color: white;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@media (max-width: 480px) {
+  .mgnrega-logo {
+    top: 60px;
+    left: 6px;
+  }
+  
+  .logo-title {
+    font-size: 1rem;
+  }
+  
+  .logo-subtitle {
+    font-size: 0.5rem;
   }
 }

@@ -169,6 +169,10 @@
     "collapseSection": "Collapse section",
     "toggleAdvancedMetrics": "Toggle advanced metrics"
   },
+  "mobile": {
+    "tutorialTapBar": "Tap bar to open menu or",
+    "tutorialToSwitch": "to switch"
+  },
   "summary": {
     "heading": "District Performance Summary",
     "thisDistrict": "this district",

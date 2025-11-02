@@ -169,6 +169,10 @@
     "collapseSection": "अनुभाग संक्षिप्त करें",
     "toggleAdvancedMetrics": "उन्नत मीट्रिक टॉगल करें"
   },
+  "mobile": {
+    "tutorialTapBar": "मेनू खोलने के लिए बार पर टैप करें या",
+    "tutorialToSwitch": "बदलने के लिए"
+  },
   "summary": {
     "heading": "जिला प्रदर्शन सारांश",
     "thisDistrict": "यह जिला",

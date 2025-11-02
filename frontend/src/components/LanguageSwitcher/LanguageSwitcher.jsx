@@ -7,11 +7,11 @@ const LanguageSwitcher = () => {
   const [isOpen, setIsOpen] = useState(false);
   
   const languages = [
-    { code: 'en', name: 'English', nativeName: 'English', flag: '🇬🇧' },
-    { code: 'hi', name: 'Hindi', nativeName: 'हिंदी', flag: '🇮🇳' },
-    { code: 'te', name: 'Telugu', nativeName: 'తెలుగు', flag: '🇮🇳' },
-    { code: 'ta', name: 'Tamil', nativeName: 'தமிழ்', flag: '🇮🇳' },
-    { code: 'mr', name: 'Marathi', nativeName: 'मराठी', flag: '🇮🇳' }
+    { code: 'en', name: 'English', nativeName: 'English', displayCode: 'EN', flag: '🇬🇧' },
+    { code: 'hi', name: 'Hindi', nativeName: 'हिंदी', displayCode: 'HI', flag: '🇮🇳' },
+    { code: 'te', name: 'Telugu', nativeName: 'తెలుగు', displayCode: 'TE', flag: '🇮🇳' },
+    { code: 'ta', name: 'Tamil', nativeName: 'தமிழ்', displayCode: 'TA', flag: '🇮🇳' },
+    { code: 'mr', name: 'Marathi', nativeName: 'मराठी', displayCode: 'MR', flag: '🇮🇳' }
   ];
 
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
@@ -52,21 +52,23 @@ const LanguageSwitcher = () => {
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
-        <span className="language-flag">{currentLanguage.flag}</span>
-        <span className="language-name">{currentLanguage.nativeName}</span>
         <svg 
-          className={`language-arrow ${isOpen ? 'open' : ''}`}
-          width="12" 
-          height="12" 
-          viewBox="0 0 12 12"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
+          className="translate-icon" 
+          width="20" 
+          height="20" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="2" 
+          strokeLinecap="round" 
           strokeLinejoin="round"
         >
-          <polyline points="2 4 6 8 10 4" />
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
         </svg>
+        <span className="language-code">{currentLanguage.displayCode}</span>
+        <span className="language-full-name">{currentLanguage.nativeName}</span>
       </button>
 
       {/* Dropdown Menu */}

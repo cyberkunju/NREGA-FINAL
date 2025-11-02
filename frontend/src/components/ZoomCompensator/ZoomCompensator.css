@@ -1,0 +1,11 @@
+.zoom-compensator {
+  /* This wrapper will scale children to compensate for browser zoom */
+  transform-origin: top left;
+  transform: scale(var(--zoom-compensation, 1));
+}
+
+/* Prevent scaling artifacts */
+.zoom-compensator * {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

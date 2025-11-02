@@ -169,6 +169,10 @@
     "collapseSection": "విభాగాన్ని కుదించు",
     "toggleAdvancedMetrics": "అధునాతన మెట్రిక్‌లను టోగుల్ చేయండి"
   },
+  "mobile": {
+    "tutorialTapBar": "మెనూ తెరవడానికి బార్‌పై నొక్కండి లేదా",
+    "tutorialToSwitch": "మార్చడానికి"
+  },
   "summary": {
     "heading": "జిల్లా పనితీరు సారాంశం",
     "thisDistrict": "ఈ జిల్లా",

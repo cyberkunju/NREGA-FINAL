@@ -169,6 +169,10 @@
     "collapseSection": "विभाग कोलॅप्स करा",
     "toggleAdvancedMetrics": "प्रगत मेट्रिक्स टॉगल करा"
   },
+  "mobile": {
+    "tutorialTapBar": "मेनू उघडण्यासाठी बारवर टॅप करा किंवा",
+    "tutorialToSwitch": "बदलण्यासाठी"
+  },
   "summary": {
     "heading": "जिल्हा कामगिरी सारांश",
     "thisDistrict": "हा जिल्हा",

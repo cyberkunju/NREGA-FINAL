@@ -1,47 +1,121 @@
 .metric-selector {
   position: absolute;
-  top: 90px;
+  top: 85px;
   left: 20px;
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(10px);
-  border-radius: 12px;
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  padding: 1.25rem;
+  padding: 1.125rem;
   z-index: 15;
-  width: 240px;
+  width: 230px;
+  min-width: 230px;
+  max-width: 230px;
   border: 1px solid rgba(0, 0, 0, 0.05);
-  max-height: calc(100vh - 110px);
+  max-height: 500px;
   overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  
+  /* Transform-based zoom compensation - DESKTOP ONLY */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+}
+
+/* Apply zoom compensation only on desktop */
+@media (min-width: 1025px) {
+  .metric-selector {
+    transform: scale(var(--base-scale, 1)) translateZ(0);
+    transform-origin: top left;
+    will-change: transform;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Tablet Optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .metric-selector {
+    top: 56px;
+    left: 10px;
+    width: 160px;
+    min-width: 160px;
+    max-width: 160px;
+    padding: 0.5rem;
+    max-height: 450px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .metric-selector-title {
+    font-size: 0.5rem;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.8px;
+  }
+
+  .metric-buttons {
+    gap: 0.25rem;
+  }
+
+  .metric-button {
+    padding: 0.35rem 0.4rem;
+    font-size: 0.6rem;
+    gap: 0.35rem;
+    line-height: 1.2;
+  }
+
+  .metric-icon {
+    width: 11px;
+    height: 11px;
+    flex-shrink: 0;
+  }
+
+  .advanced-toggle {
+    padding: 0.35rem 0.4rem;
+    font-size: 0.6rem;
+    margin-top: 0.25rem;
+  }
+
+  .advanced-section {
+    margin-top: 0.25rem;
+    padding-top: 0.4rem;
+  }
 }
 
 .metric-selector-title {
-  font-size: 0.7rem;
+  font-size: 0.6875rem;
   font-weight: 700;
   color: #64748b;
-  margin-bottom: 1rem;
-  letter-spacing: 1.2px;
+  margin-bottom: 0.9375rem;
+  letter-spacing: 1.1px;
 }
 
 .metric-buttons {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4375rem;
 }
 
 .metric-button {
   display: flex;
   align-items: center;
-  gap: 0.875rem;
-  padding: 0.875rem 1rem;
+  gap: 0.75rem;
+  padding: 0.75rem 0.9375rem;
   border: 1.5px solid #e2e8f0;
-  border-radius: 8px;
+  border-radius: 7px;
   background: white;
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   text-align: left;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .metric-button::before {
@@ -89,8 +163,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
 }
 
@@ -134,16 +208,17 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0.75rem 1rem;
-  margin-top: 0.75rem;
+  padding: 0.75rem 0.9375rem;
+  margin-top: 0.6875rem;
   border: 1.5px solid #e2e8f0;
-  border-radius: 8px;
+  border-radius: 7px;
   background: white;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: #475569;
+  box-sizing: border-box;
 }
 
 .advanced-toggle:hover {
@@ -157,8 +232,8 @@
 }
 
 .advanced-toggle-icon {
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
   transition: transform 0.3s ease;
 }
 
@@ -168,8 +243,8 @@
 
 /* Advanced Metrics Section */
 .advanced-metrics {
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
+  margin-top: 0.6875rem;
+  padding-top: 0.6875rem;
   border-top: 1px solid #e2e8f0;
   animation: slideDown 0.3s ease;
 }
@@ -204,33 +279,15 @@
   background: rgba(148, 163, 184, 0.5);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
+/* Mobile and Tablet - Bottom Sheet Pattern */
+@media (max-width: 1024px) {
   .metric-selector {
-    left: 10px;
-    top: 10px;
-    max-width: 200px;
-    padding: 0.75rem;
-    max-height: calc(100vh - 30px);
+    display: none;
   }
+}
 
-  .metric-selector-title {
-    font-size: 0.75rem;
-  }
-
-  .metric-button {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.8rem;
-  }
-
-  .metric-icon {
-    font-size: 1rem;
-    width: 20px;
-    height: 20px;
-  }
-  
-  .advanced-toggle {
-    padding: 0.6rem 0.75rem;
-    font-size: 0.75rem;
+@media (max-width: 480px) {
+  .metric-selector {
+    display: none;
   }
 }

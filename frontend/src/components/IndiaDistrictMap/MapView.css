@@ -2,12 +2,24 @@
   position: relative;
   width: 100%;
   height: 100vh;
+  height: 100dvh; /* Dynamic viewport height for mobile browsers */
   overflow: hidden;
+  /* CRITICAL: Allow pinch zoom and pan gestures on map */
+  touch-action: pan-x pan-y pinch-zoom;
+  
+  /* Prevent border/cropping issues from scaled children */
+  transform: translateZ(0);
+  isolation: isolate;
 }
 
 .map-container {
   width: 100%;
   height: 100%;
+  /* CRITICAL: Allow all touch interactions including pinch zoom */
+  touch-action: pan-x pan-y pinch-zoom;
+  
+  /* Remove transform from map itself to prevent cropping */
+  /* Map scaling handled by MapLibre zoom controls instead */
 }
 
 .map-error {
@@ -21,6 +33,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   text-align: center;
   z-index: 1000;
+  max-width: 90%;
 }
 
 .map-error p {
@@ -37,6 +50,8 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 1rem;
+  min-height: 44px; /* iOS touch target minimum */
+  min-width: 120px;
 }
 
 .map-error button:hover {
@@ -47,37 +62,91 @@
 .maplibregl-ctrl-bottom-right {
   bottom: 20px !important;
   right: 10px !important;
+  
+  /* Basic rendering */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Apply zoom compensation only on desktop */
+@media (min-width: 1025px) {
+  .maplibregl-ctrl-bottom-right {
+    transform: scale(var(--base-scale, 1)) translateZ(0);
+    transform-origin: bottom right;
+  }
 }
 
 .maplibregl-ctrl-top-right {
-  top: 80px !important; /* Moved down to avoid language switcher overlap */
+  top: 80px !important;
   right: 10px !important;
+  
+  /* Basic rendering */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Apply zoom compensation only on desktop */
+@media (min-width: 1025px) {
+  .maplibregl-ctrl-top-right {
+    transform: scale(var(--base-scale, 1)) translateZ(0);
+    transform-origin: top right;
+  }
 }
 
 /* Attribution styling */
 .maplibregl-ctrl-attrib {
-  font-size: 10px;
-  background: rgba(255, 255, 255, 0.7);
-  padding: 2px 5px;
-  border-radius: 3px;
+  display: none !important;
 }
 
 /* Language Switcher Positioning */
 .map-wrapper .language-switcher {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 10;
+  top: 12px;
+  right: 12px;
+  z-index: 30; /* Higher z-index to stay on top */
 }
 
+/* Mobile Optimizations - Full screen with FAB */
 @media (max-width: 768px) {
   .map-wrapper .language-switcher {
-    top: 15px;
-    right: 15px;
+    top: 16px;
+    right: 16px;
+    z-index: 30;
   }
   
   .maplibregl-ctrl-top-right {
-    top: 70px !important; /* Adjusted for mobile */
-    right: 10px !important;
+    top: 80px !important;
+    right: 12px !important;
+  }
+  
+  .maplibregl-ctrl-bottom-right {
+    bottom: 90px !important;
+    right: 12px !important;
+  }
+  
+  .map-error {
+    padding: 1.5rem;
+    max-width: 85%;
+  }
+  
+  .map-error button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .map-wrapper .language-switcher {
+    top: 8px;
+    right: 6px;
+  }
+  
+  .maplibregl-ctrl-top-right {
+    top: 60px !important;
+    right: 6px !important;
+  }
+  
+  .maplibregl-ctrl-bottom-right {
+    bottom: 55px !important;
+    right: 6px !important;
   }
 }

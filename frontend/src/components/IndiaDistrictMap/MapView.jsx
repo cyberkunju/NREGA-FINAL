@@ -16,6 +16,7 @@ import SearchBar from './SearchBar';
 import Logo from './Logo';
 import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
 import LocationPrompt from './LocationPrompt';
+import MobileBottomSheet from './MobileBottomSheet';
 import './MapView.css';
 
 // Metric configurations with color ramps
@@ -265,6 +266,44 @@ const MapView = () => {
 
     console.log('🗺️  [MapView] Initializing MapLibre GL...');
 
+    // Debounce timer references
+    let resizeTimeout = null;
+    let visualViewportTimeout = null;
+
+    // Handle window resize to update map size with debouncing
+    const handleResize = () => {
+      if (!map.current) return;
+      
+      // Clear existing timeout
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+      }
+      
+      // Debounce resize to prevent loops
+      resizeTimeout = setTimeout(() => {
+        if (map.current) {
+          map.current.resize();
+        }
+      }, 150); // 150ms debounce
+    };
+
+    // Handle visual viewport changes (pinch zoom on mobile) with aggressive debouncing
+    const handleVisualViewportResize = () => {
+      if (!map.current) return;
+      
+      // Clear existing timeout
+      if (visualViewportTimeout) {
+        clearTimeout(visualViewportTimeout);
+      }
+      
+      // More aggressive debounce for visual viewport to prevent pinch-zoom glitches
+      visualViewportTimeout = setTimeout(() => {
+        if (map.current) {
+          map.current.resize();
+        }
+      }, 250); // 250ms debounce for viewport changes
+    };
+
     try {
       map.current = new maplibregl.Map({
         container: mapContainer.current,
@@ -282,66 +321,110 @@ const MapView = () => {
           ],
           glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf'
         },
-        center: [78.9629, 22.5937], // Center of India
-        zoom: 4,
-        minZoom: 4,
+        center: [81.1825, 24.0276], // Perfect center for mobile view
+        zoom: 3.0, // Perfect zoom to see full India
+        minZoom: 3, // Allow more zoom out
         maxZoom: 10,
         renderWorldCopies: false, // Prevent world duplication
         dragRotate: false, // Disable rotation
-        touchZoomRotate: false
+        touchZoomRotate: true, // Enable touch zoom
+        touchPitch: false // Disable pitch on touch
       });
 
       // Store initial center and bounds
-      let initialCenter = { lng: 78.9629, lat: 22.5937 };
+      let initialCenter = { lng: 81.1825, lat: 24.0276 }; // Perfect center for mobile
       let initialBounds = null;
+      let isActivelyZooming = false;
+      let zoomEndTimeout = null;
 
       map.current.on('load', () => {
         console.log('✅ [MapView] Map loaded successfully');
         setMapLoaded(true);
       });
 
+      // Track when zoom is actively happening
+      map.current.on('zoomstart', () => {
+        isActivelyZooming = true;
+        // Clear any pending timeout
+        if (zoomEndTimeout) {
+          clearTimeout(zoomEndTimeout);
+        }
+      });
+
+      // Track zoom end with delay
+      map.current.on('zoomend', () => {
+        // Keep the flag true for a bit longer to prevent interference
+        if (zoomEndTimeout) {
+          clearTimeout(zoomEndTimeout);
+        }
+        zoomEndTimeout = setTimeout(() => {
+          isActivelyZooming = false;
+        }, 500); // Wait 500ms after zoom ends before allowing boundary corrections
+        
+        // Log current position for debugging
+        const center = map.current.getCenter();
+        const zoom = map.current.getZoom();
+        console.log('📍 CURRENT MAP STATE:');
+        console.log(`   Center: [${center.lng.toFixed(4)}, ${center.lat.toFixed(4)}]`);
+        console.log(`   Zoom: ${zoom.toFixed(2)}`);
+        console.log('   Copy this for perfect positioning!');
+      });
+
       // Snap back to center at default zoom, constrain at higher zoom
+      // Only trigger when NOT actively zooming to prevent interference
       map.current.on('moveend', () => {
+        // Don't interfere if user is currently zooming
+        if (isActivelyZooming) return;
         if (!initialBounds) return;
+        
+        // Log current position after move
+        const center = map.current.getCenter();
+        const zoom = map.current.getZoom();
+        console.log('🗺️ AFTER MOVE:');
+        console.log(`   Center: [${center.lng.toFixed(4)}, ${center.lat.toFixed(4)}]`);
+        console.log(`   Zoom: ${zoom.toFixed(2)}`);
         
         const currentZoom = map.current.getZoom();
         const currentCenter = map.current.getCenter();
         
-        // At default zoom level (4-4.5), snap back to center
-        if (currentZoom <= 4.5) {
+        // More lenient snap-back - only at very low zoom and far from center
+        if (currentZoom <= 4.3) {
           const distanceFromCenter = Math.sqrt(
             Math.pow(currentCenter.lng - initialCenter.lng, 2) + 
             Math.pow(currentCenter.lat - initialCenter.lat, 2)
           );
           
-          // If moved more than a tiny amount, snap back
-          if (distanceFromCenter > 0.1) {
+          // Only snap back if moved very far (increased from 0.1 to 5.0)
+          if (distanceFromCenter > 5.0) {
             map.current.easeTo({
               center: initialCenter,
               duration: 500,
               easing: (t) => t * (2 - t) // easeOutQuad
             });
           }
-        } else {
-          // When zoomed in, constrain to India's bounds
+        } else if (currentZoom > 4.5) {
+          // When zoomed in, use more lenient bounds checking
           let needsCorrection = false;
           let newCenter = { ...currentCenter };
           
-          // Check longitude bounds
-          if (currentCenter.lng < initialBounds.getWest()) {
-            newCenter.lng = initialBounds.getWest() + 1;
+          // Add buffer to bounds (allow going slightly outside)
+          const buffer = 2; // degrees
+          
+          // Check longitude bounds with buffer
+          if (currentCenter.lng < initialBounds.getWest() - buffer) {
+            newCenter.lng = initialBounds.getWest();
             needsCorrection = true;
-          } else if (currentCenter.lng > initialBounds.getEast()) {
-            newCenter.lng = initialBounds.getEast() - 1;
+          } else if (currentCenter.lng > initialBounds.getEast() + buffer) {
+            newCenter.lng = initialBounds.getEast();
             needsCorrection = true;
           }
           
-          // Check latitude bounds
-          if (currentCenter.lat < initialBounds.getSouth()) {
-            newCenter.lat = initialBounds.getSouth() + 1;
+          // Check latitude bounds with buffer
+          if (currentCenter.lat < initialBounds.getSouth() - buffer) {
+            newCenter.lat = initialBounds.getSouth();
             needsCorrection = true;
-          } else if (currentCenter.lat > initialBounds.getNorth()) {
-            newCenter.lat = initialBounds.getNorth() - 1;
+          } else if (currentCenter.lat > initialBounds.getNorth() + buffer) {
+            newCenter.lat = initialBounds.getNorth();
             needsCorrection = true;
           }
           
@@ -358,7 +441,21 @@ const MapView = () => {
       };
 
       // Add navigation controls
-      map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
+      map.current.addControl(new maplibregl.NavigationControl({
+        showCompass: false // Hide compass since rotation is disabled
+      }), 'top-right');
+
+      // Disable rotation on touch zoom (allow zoom, block rotation)
+      map.current.touchZoomRotate.disableRotation();
+
+      // Add resize listeners
+      window.addEventListener('resize', handleResize);
+      window.addEventListener('orientationchange', handleResize);
+      
+      // Handle visual viewport for mobile pinch-zoom
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', handleVisualViewportResize);
+      }
 
       map.current.on('error', (e) => {
         console.error('❌ [MapView] Map error:', e);
@@ -374,6 +471,19 @@ const MapView = () => {
     }
 
     return () => {
+      // Clear debounce timers
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+      }
+      if (visualViewportTimeout) {
+        clearTimeout(visualViewportTimeout);
+      }
+      
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', handleVisualViewportResize);
+      }
       if (map.current) {
         map.current.remove();
         map.current = null;
@@ -632,11 +742,21 @@ const MapView = () => {
         [bbox[2], bbox[3]]  // Northeast
       ];
       
-      map.current.fitBounds(bounds, {
-        padding: 40,
-        duration: 0,
-        maxZoom: 4 // Prevent fitBounds from zooming in too much
-      });
+      // Different padding for mobile/tablet vs desktop to show full map
+      const isMobile = window.innerWidth <= 1024;
+      
+      // Force specific zoom and center for mobile/tablet to ensure full India is visible
+      if (isMobile) {
+        // Account for tutorial message at bottom - use less bottom padding when visible
+        map.current.setZoom(3.0);
+        map.current.setCenter([81.1825, 24.0276]); // Perfect position from user testing
+      } else {
+        map.current.fitBounds(bounds, {
+          padding: 40,
+          duration: 0,
+          maxZoom: 4
+        });
+      }
       
       // Store initial bounds for constraint checking
       if (window.setInitialBounds) {
@@ -836,6 +956,108 @@ const MapView = () => {
   const setupInteractions = () => {
     if (!map.current) return;
 
+    // Track touch/drag state to prevent accidental clicks during zoom/pan
+    let touchStartPos = null;
+    let isDragging = false;
+    let isZooming = false;
+    let zoomEndTimeout = null;
+    const CLICK_THRESHOLD = 10; // pixels - if moved more than this, it's not a click
+
+    // Track zoom start
+    map.current.on('zoomstart', () => {
+      isZooming = true;
+      console.log('🔍 Zoom started');
+    });
+
+    // Track zoom end with delay
+    map.current.on('zoomend', () => {
+      console.log('🔍 Zoom ended');
+      // Keep isZooming true for a bit longer to catch late click events
+      if (zoomEndTimeout) {
+        clearTimeout(zoomEndTimeout);
+      }
+      zoomEndTimeout = setTimeout(() => {
+        isZooming = false;
+        console.log('🔍 Zoom fully completed');
+      }, 300); // 300ms delay after zoom ends
+    });
+
+    // Track touch start position
+    map.current.on('touchstart', (e) => {
+      if (e.originalEvent.touches.length > 1) {
+        // Multi-touch = zooming
+        isZooming = true;
+        touchStartPos = null;
+        console.log('👆 Multi-touch detected (zooming)');
+      } else {
+        touchStartPos = {
+          x: e.originalEvent.touches[0].clientX,
+          y: e.originalEvent.touches[0].clientY
+        };
+      }
+      isDragging = false;
+    });
+
+    // Track if user is dragging
+    map.current.on('touchmove', (e) => {
+      if (e.originalEvent.touches.length > 1) {
+        isZooming = true;
+        return;
+      }
+      
+      if (touchStartPos && e.originalEvent.touches.length === 1) {
+        const currentPos = {
+          x: e.originalEvent.touches[0].clientX,
+          y: e.originalEvent.touches[0].clientY
+        };
+        const distance = Math.sqrt(
+          Math.pow(currentPos.x - touchStartPos.x, 2) +
+          Math.pow(currentPos.y - touchStartPos.y, 2)
+        );
+        
+        if (distance > CLICK_THRESHOLD) {
+          isDragging = true;
+        }
+      }
+    });
+
+    // Reset on touch end
+    map.current.on('touchend', () => {
+      // Keep isDragging/isZooming state briefly to block the click event
+      setTimeout(() => {
+        isDragging = false;
+        touchStartPos = null;
+      }, 150);
+      // Note: isZooming is now handled by zoomend event
+    });
+
+    // Track mouse drag for desktop
+    let mouseDownPos = null;
+    
+    map.current.on('mousedown', (e) => {
+      mouseDownPos = { x: e.point.x, y: e.point.y };
+      isDragging = false;
+    });
+
+    map.current.on('mousemove', (e) => {
+      if (mouseDownPos) {
+        const distance = Math.sqrt(
+          Math.pow(e.point.x - mouseDownPos.x, 2) +
+          Math.pow(e.point.y - mouseDownPos.y, 2)
+        );
+        if (distance > CLICK_THRESHOLD) {
+          isDragging = true;
+        }
+      }
+    });
+
+    map.current.on('mouseup', () => {
+      setTimeout(() => {
+        mouseDownPos = null;
+        isDragging = false;
+      }, 50);
+    });
+
     // Remove existing event listeners to prevent duplicates
     map.current.off('mousemove', 'district-heatmap');
     map.current.off('mouseleave', 'district-heatmap');
@@ -925,6 +1147,12 @@ const MapView = () => {
 
     // Click to navigate
     map.current.on('click', 'district-heatmap', (e) => {
+      // Prevent navigation if user was dragging/zooming
+      if (isDragging || isZooming) {
+        console.log('🚫 Click blocked - user was dragging/zooming');
+        return;
+      }
+
       if (e.features.length === 0) return;
 
       const feature = e.features[0];
@@ -980,6 +1208,32 @@ const MapView = () => {
     }, {});
   }, [t]);
 
+  // Prepare legend data for mobile bottom sheet
+  const currentLegendData = useMemo(() => {
+    const metricConfig = translatedMetrics[selectedMetric];
+    if (!metricConfig) return null;
+
+    const colorStops = metricConfig.colorStops;
+    const items = [];
+    
+    // Create legend items from color stops
+    for (let i = 0; i < colorStops.length; i += 2) {
+      if (i + 1 < colorStops.length) {
+        const value = colorStops[i];
+        const color = colorStops[i + 1];
+        items.push({
+          color: color,
+          label: metricConfig.format ? metricConfig.format(value) : `${value}${metricConfig.unit || ''}`
+        });
+      }
+    }
+
+    return {
+      title: metricConfig.title,
+      items: items
+    };
+  }, [selectedMetric, translatedMetrics]);
+
   return (
     <div className="map-wrapper">
       {loading && <LoadingOverlay message={t('map.loadingData')} />}
@@ -1013,6 +1267,14 @@ const MapView = () => {
             />
           )}
           <Tooltip {...tooltip} />
+          
+          {/* Mobile Bottom Sheet - only shows on mobile */}
+          <MobileBottomSheet
+            selectedMetric={selectedMetric}
+            onChange={handleMetricChange}
+            metrics={translatedMetrics}
+            currentLegend={currentLegendData}
+          />
         </>
       )}
     </div>
