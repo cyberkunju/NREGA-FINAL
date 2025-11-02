@@ -98,19 +98,4 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-/**
- * Clear cache (for testing/admin purposes)
- * This endpoint can be removed in production or protected with authentication
- */
-router.post('/clear-cache', (req, res) => {
-  districtCache.data = null;
-  districtCache.timestamp = null;
-  
-  console.log('District cache cleared');
-  
-  res.json({
-    message: 'District cache cleared successfully',
-  });
-});
-
 module.exports = router;

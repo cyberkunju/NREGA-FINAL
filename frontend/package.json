@@ -6,22 +6,15 @@
   "dependencies": {
     "@turf/turf": "^7.2.0",
     "axios": "^1.6.2",
-    "d3-array": "^3.2.4",
-    "d3-color": "^3.1.0",
-    "d3-interpolate": "^3.0.1",
-    "d3-scale": "^4.0.2",
-    "d3-scale-chromatic": "^3.1.0",
     "framer-motion": "^12.23.24",
     "i18next": "^25.6.0",
     "i18next-browser-languagedetector": "^8.2.0",
     "i18next-http-backend": "^3.0.2",
-    "mapbox-gl": "^3.16.0",
     "maplibre-gl": "^4.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^16.2.3",
-    "react-router-dom": "^6.20.1",
-    "topojson-client": "^3.1.0"
+    "react-router-dom": "^6.20.1"
   },
   "scripts": {
     "start": "react-scripts start",

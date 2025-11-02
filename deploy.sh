@@ -26,12 +26,12 @@ fi
 source .env
 
 # Validate required variables
-if [ -z "$DB_PASSWORD" ] || [ "$DB_PASSWORD" == "CHANGE_THIS_SECURE_PASSWORD" ]; then
-    echo -e "${RED}❌ Error: Please set a secure DB_PASSWORD in .env${NC}"
+if [ -z "$DB_PASSWORD" ]; then
+    echo -e "${RED}❌ Error: Please set DB_PASSWORD in .env${NC}"
     exit 1
 fi
 
-if [ -z "$REACT_APP_API_URL" ] || [[ "$REACT_APP_API_URL" == *"YOUR_VM_IP"* ]]; then
+if [ -z "$REACT_APP_API_URL" ]; then
     echo -e "${RED}❌ Error: Please set REACT_APP_API_URL in .env${NC}"
     exit 1
 fi

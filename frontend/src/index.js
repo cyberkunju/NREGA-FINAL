@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import 'mapbox-gl/dist/mapbox-gl.css';
 import './i18n/config'; // Initialize i18n BEFORE App
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';

@@ -37,6 +37,13 @@ CREATE TABLE IF NOT EXISTS monthly_performance (
   persondays_of_central_liability BIGINT,
   sc_persondays BIGINT,
   st_persondays BIGINT,
+  households_100_days BIGINT,
+  average_wage_rate NUMERIC(10,2),
+  total_works_completed BIGINT,
+  total_works_ongoing BIGINT,
+  agriculture_works_percent NUMERIC(5,2),
+  nrm_expenditure_percent NUMERIC(5,2),
+  category_b_works_percent NUMERIC(5,2),
   last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT unique_district_month_year UNIQUE(district_name, month, fin_year)
 );
@@ -44,6 +51,8 @@ CREATE TABLE IF NOT EXISTS monthly_performance (
 -- Create indexes for performance optimization
 CREATE INDEX IF NOT EXISTS idx_district_month ON monthly_performance(district_name, month, fin_year);
 CREATE INDEX IF NOT EXISTS idx_last_updated ON monthly_performance(last_updated DESC);
+CREATE INDEX IF NOT EXISTS idx_households_100_days ON monthly_performance(households_100_days);
+CREATE INDEX IF NOT EXISTS idx_average_wage_rate ON monthly_performance(average_wage_rate);
 
 -- ============================================
 -- Create database users with appropriate permissions

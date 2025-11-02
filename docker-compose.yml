@@ -6,9 +6,9 @@ services:
     image: postgres:14-alpine
     container_name: mgnrega-db
     environment:
-      POSTGRES_DB: mgnrega
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres123
+      POSTGRES_DB: ${DB_NAME:-mgnrega}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres123}
     ports:
       - "5432:5432"
     volumes:
@@ -33,9 +33,9 @@ services:
       PORT: 3001
       DB_HOST: postgres
       DB_PORT: 5432
-      DB_NAME: mgnrega
-      DB_USER: postgres
-      DB_PASSWORD: postgres123
+      DB_NAME: ${DB_NAME:-mgnrega}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
     ports:
       - "3001:3001"
     depends_on:
@@ -76,15 +76,15 @@ services:
     container_name: mgnrega-etl
     environment:
       NODE_ENV: development
-      GOV_API_ENDPOINT: https://api.data.gov.in/resource/ee03643a-ee4c-48c2-ac30-9f2ff26ab722
-      GOV_API_KEY: 579b464db66ec23bdd000001d68ccbbe91b645a3578141daa6dc3a34
-      STATE_FILTER: ""
+      GOV_API_ENDPOINT: ${GOV_API_ENDPOINT}
+      GOV_API_KEY: ${GOV_API_KEY}
+      STATE_FILTER: ${STATE_FILTER:-}
       CRON_MODE: "true"
       DB_HOST: postgres
       DB_PORT: 5432
-      DB_NAME: mgnrega
-      DB_USER: postgres
-      DB_PASSWORD: postgres123
+      DB_NAME: ${DB_NAME:-mgnrega}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
     depends_on:
       postgres:
         condition: service_healthy

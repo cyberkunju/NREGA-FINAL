@@ -1,5 +1,4 @@
 export { default } from './MapView';
-export { default as IndiaDistrictMap } from './IndiaDistrictMap';
 export { default as MapView } from './MapView';
 export { default as Legend } from './Legend';
 export { default as Tooltip } from './Tooltip';
